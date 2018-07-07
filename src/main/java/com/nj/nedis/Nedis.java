@@ -18,7 +18,7 @@ import io.netty.util.CharsetUtil;
 public class Nedis {
 
 	public static void main( String[] args ) {
-		int port = 6378;
+		int port = 6379;
 		new Nedis().serve(port);
 	}
 

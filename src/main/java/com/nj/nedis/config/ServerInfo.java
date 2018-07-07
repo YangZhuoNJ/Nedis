@@ -1,131 +1,148 @@
 package com.nj.nedis.config;
 
-import java.beans.BeanInfo;
-import java.beans.IntrospectionException;
-import java.beans.Introspector;
-import java.beans.PropertyDescriptor;
+import org.apache.commons.beanutils.BeanUtils;
 
-import org.omg.PortableInterceptor.Interceptor;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ServerInfo {
 
-	private static  String version = "2.5.9";
+    private  String version = "2.5.9";
 
-	private static  String gitSha1 = "473f3090";
+    private  String gitSha1 = "473f3090";
 
-	private static  String gitDirty = "473f3090";
+    private  String gitDirty = "473f3090";
 
-	private static  String os = "Linux 3.3.7-ARCH i686";
+    private  String os = "Linux 3.3.7-ARCH i686";
 
-	private static  String arch_bits = "64";
+    private  String arch_bits = "64";
 
-	private static  String multiplexingApi = "epoll";
+    private  String multiplexingApi = "epoll";
 
-	private static  String gccVersion = "4.7.0";
+    private  String gccVersion = "4.7.0";
 
-	private static  String processId = "8104";//todo
+    private  String processId = "8104";//todo
 
-	private static  String tcpPort = "6378";
+    private  String tcpPort = "6378";
 
-	private static String lru_clock = "1680564";
+    private  String lru_clock = "1680564";
 
-	public static String getInfo() {
+    public static String getInfo(ServerInfo info) {
 
-		try {
-			BeanInfo beanInfo = Introspector.getBeanInfo( ServerInfo.class );
-			StringBuffer result = new StringBuffer( 128 );
+        try {
 
-			PropertyDescriptor[] pds = beanInfo.getPropertyDescriptors();
+            Map<String, String> result = new HashMap<String, String>();
+            result = BeanUtils.describe(info);
 
-			result.append( "*" + pds.length + "\r\n" );
-			for( PropertyDescriptor pd : pds ) {
-//				return
-			}
+            StringBuffer sb = new StringBuffer(1024);
+            sb.append("*");
+            sb.append(result.size());
+            sb.append("\r\n");
 
+            for (Map.Entry<String, String> entry : result.entrySet()) {
+                StringBuffer tmp = new StringBuffer(16);
+                tmp.append(entry.getKey());
+                tmp.append(":");
+                tmp.append(entry.getValue());
 
-		} catch( IntrospectionException e ) {
-			return "-ERR get info error\r\n";
-		}
+                sb.append("$");
+                sb.append(tmp.length());
+                sb.append("\r\n");
 
-	}
+                sb.append(tmp.toString());
+                sb.append("\r\n");
+            }
+            System.out.print(sb.toString().trim());
 
-	public static String getVersion() {
-		return version;
-	}
+            return sb.toString().trim();
 
-	public static void setVersion( String version ) {
-		ServerInfo.version = version;
-	}
+        } catch (Exception e) {
+            return "-ERR get info error\r\n";
+        }
 
-	public static String getGitSha1() {
-		return gitSha1;
-	}
+    }
 
-	public static void setGitSha1( String gitSha1 ) {
-		ServerInfo.gitSha1 = gitSha1;
-	}
+    public String getVersion() {
+        return version;
+    }
 
-	public static String getGitDirty() {
-		return gitDirty;
-	}
+    public void setVersion(String version) {
+        this.version = version;
+    }
 
-	public static void setGitDirty( String gitDirty ) {
-		ServerInfo.gitDirty = gitDirty;
-	}
+    public String getGitSha1() {
+        return gitSha1;
+    }
 
-	public static String getOs() {
-		return os;
-	}
+    public void setGitSha1(String gitSha1) {
+        this.gitSha1 = gitSha1;
+    }
 
-	public static void setOs( String os ) {
-		ServerInfo.os = os;
-	}
+    public String getGitDirty() {
+        return gitDirty;
+    }
 
-	public static String getArch_bits() {
-		return arch_bits;
-	}
+    public void setGitDirty(String gitDirty) {
+        this.gitDirty = gitDirty;
+    }
 
-	public static void setArch_bits( String arch_bits ) {
-		ServerInfo.arch_bits = arch_bits;
-	}
+    public String getOs() {
+        return os;
+    }
 
-	public static String getMultiplexingApi() {
-		return multiplexingApi;
-	}
+    public void setOs(String os) {
+        this.os = os;
+    }
 
-	public static void setMultiplexingApi( String multiplexingApi ) {
-		ServerInfo.multiplexingApi = multiplexingApi;
-	}
+    public String getArch_bits() {
+        return arch_bits;
+    }
 
-	public static String getGccVersion() {
-		return gccVersion;
-	}
+    public void setArch_bits(String arch_bits) {
+        this.arch_bits = arch_bits;
+    }
 
-	public static void setGccVersion( String gccVersion ) {
-		ServerInfo.gccVersion = gccVersion;
-	}
+    public String getMultiplexingApi() {
+        return multiplexingApi;
+    }
 
-	public static String getProcessId() {
-		return processId;
-	}
+    public void setMultiplexingApi(String multiplexingApi) {
+        this.multiplexingApi = multiplexingApi;
+    }
 
-	public static void setProcessId( String processId ) {
-		ServerInfo.processId = processId;
-	}
+    public String getGccVersion() {
+        return gccVersion;
+    }
 
-	public static String getTcpPort() {
-		return tcpPort;
-	}
+    public void setGccVersion(String gccVersion) {
+        this.gccVersion = gccVersion;
+    }
 
-	public static void setTcpPort( String tcpPort ) {
-		ServerInfo.tcpPort = tcpPort;
-	}
+    public String getProcessId() {
+        return processId;
+    }
 
-	public static String getLru_clock() {
-		return lru_clock;
-	}
+    public void setProcessId(String processId) {
+        this.processId = processId;
+    }
 
-	public static void setLru_clock( String lru_clock ) {
-		ServerInfo.lru_clock = lru_clock;
-	}
+    public String getTcpPort() {
+        return tcpPort;
+    }
+
+    public void setTcpPort(String tcpPort) {
+        this.tcpPort = tcpPort;
+    }
+
+    public String getLru_clock() {
+        return lru_clock;
+    }
+
+    public void setLru_clock(String lru_clock) {
+        this.lru_clock = lru_clock;
+    }
+
+    public static void main(String[] args) {
+        ServerInfo.getInfo(new ServerInfo());
+    }
 }

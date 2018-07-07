@@ -20,6 +20,13 @@ public class RedisServerHandler extends ChannelHandlerAdapter {
 			ctx.writeAndFlush( Unpooled.copiedBuffer( ":0\r\n".getBytes() ) );
 		} else if( "select".equalsIgnoreCase( command ) ) {
 			ctx.writeAndFlush( Unpooled.copiedBuffer( "+OK\r\n".getBytes() ) );
+		} else if ("INFO".equalsIgnoreCase(command)) {
+			ctx.writeAndFlush(Unpooled.copiedBuffer((
+							"*1\r\n" +
+							"$20\r\n" +
+							"redis_version:2.9.11\r\n"
+							).getBytes()));
+
 		}
 
 
