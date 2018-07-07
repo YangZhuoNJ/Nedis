@@ -1,5 +1,8 @@
 package com.nj.nedis.protocol;
 
+import com.nj.nedis.exception.CmdException;
+import com.nj.nedis.exception.ExceptionCode;
+
 public class RedisProtocolReq {
 
 	private String command;
@@ -19,5 +22,15 @@ public class RedisProtocolReq {
 
 	public String getCommand() {
 		return command;
+	}
+
+	public String argIndex(int index) {
+
+		if (index < 0 || index > args.length) {
+			//// TODO: 2018/7/7
+			throw new CmdException(ExceptionCode.START);
+		}
+
+		return this.args[index];
 	}
 }
