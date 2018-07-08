@@ -9,7 +9,6 @@ import com.nj.nedis.protocol.Protocol;
  */
 public abstract class ComplexReply extends Protocol implements Reply {
 
-
     protected void checkComplete() {
         if (!isComplete()) {
             throw new ReplyException(ExceptionCode.REPLY_NOT_COMPLETE);

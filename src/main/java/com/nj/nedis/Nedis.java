@@ -13,6 +13,8 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.codec.DelimiterBasedFrameDecoder;
 import io.netty.handler.codec.string.StringDecoder;
+import io.netty.handler.logging.LogLevel;
+import io.netty.handler.logging.LoggingHandler;
 import io.netty.util.CharsetUtil;
 
 public class Nedis {
@@ -41,6 +43,8 @@ public class Nedis {
 							ch.pipeline().addLast( new StringDecoder( CharsetUtil.UTF_8 ) );
 							ch.pipeline().addLast( new CommandLineCodecHandler() );
 							ch.pipeline().addLast( new RedisServerHandler() );
+
+							ch.pipeline().addLast(new LoggingHandler(LogLevel.INFO));
 
 						}
 					} );
