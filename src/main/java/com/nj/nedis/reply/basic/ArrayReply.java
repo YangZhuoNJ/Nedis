@@ -191,14 +191,7 @@ public class ArrayReply extends ComplexReply {
 
         for (int i = 0; i < length; i++) {
             String value = arr[i].responseString();
-            // $length\r\n
-            sb.append(ReplyEnum.BULK.getFirstByte());
-            sb.append(value.length());
-            sb.append(delimiter());
-
-            //body\r\n
-            sb.append(value);
-            sb.append(delimiter());
+            sb.append( value );
         }
 
         System.out.print(sb.toString());
